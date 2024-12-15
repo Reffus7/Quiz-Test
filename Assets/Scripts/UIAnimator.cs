@@ -42,7 +42,6 @@ namespace Game {
 
             float bounceDuration = 0.5f;
 
-            cellContent.DOKill();
             cellContent.localScale = Vector3.one;
             cellContent.DOScale(Vector3.one * 1.2f, bounceDuration)
                 .SetEase(Ease.OutBounce)

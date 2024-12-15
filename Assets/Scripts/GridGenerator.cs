@@ -49,7 +49,7 @@ namespace Game {
 
         private void ClearGrid() {
             foreach (Transform child in gridParent) {
-                child.DOKill();
+                child.GetChild(1).DOKill();
                 Destroy(child.gameObject);
                 cells.Clear();
             }
