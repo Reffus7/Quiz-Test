@@ -22,6 +22,9 @@ namespace Game {
             if (element.name == "7" || element.name == "8") {
                 contentTransform.eulerAngles = new Vector3(0, 0, -90);
             }
+            else {
+                contentTransform.rotation=Quaternion.identity;
+            }
         }
     }
 }

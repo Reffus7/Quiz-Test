@@ -1,16 +1,21 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Zenject;
 
 namespace Game {
     public class GridManager {
         private GridGenerator gridGenerator;
         private UIAnimator uiAnimator;
-        private ParticleSystem starParticlesPrefab;
+        private SoundManager soundManager;
 
-        public GridManager(GridGenerator gridGenerator, UIAnimator uiAnimator, ParticleSystem starParticlesPrefab) {
+        private ParticleSystem starParticles;
+
+        public GridManager(GridGenerator gridGenerator, UIAnimator uiAnimator, SoundManager soundManager, [Inject(Id = "StarParticles")] ParticleSystem starParticlesPrefab) {
             this.gridGenerator = gridGenerator;
             this.uiAnimator = uiAnimator;
-            this.starParticlesPrefab = starParticlesPrefab;
+            this.soundManager = soundManager;
+
+            starParticles = Object.Instantiate(starParticlesPrefab);
         }
 
         public Sprite[] GenerateGridSprites(int rows, int columns, Sprite target, List<Sprite> spritePool) {
@@ -30,21 +35,23 @@ namespace Game {
         }
 
         public void HandleCorrectClick(Cell cell, System.Action onComplete) {
-            SpawnParticles(cell.transform);
+            ShowParticles(cell.transform);
             uiAnimator.BounceTransform(cell.transform.GetChild(1), onComplete);
+            soundManager.PlayCorrectAnswer();
+
         }
 
         public void HandleWrongClick(Cell cell) {
             uiAnimator.ShakeTransform(cell.transform.GetChild(1));
+            soundManager.PlayWrongAnswer();
+
         }
 
-        private void SpawnParticles(Transform cellTransform) {
-            if (starParticlesPrefab != null) {
-                ParticleSystem particleObject = Object.Instantiate(starParticlesPrefab, cellTransform.position - Vector3.forward, Quaternion.identity);
-                particleObject.transform.SetParent(cellTransform);
-                particleObject.transform.localScale = Vector3.one;
-
-            }
+        private void ShowParticles(Transform cellTransform) {
+            starParticles.transform.SetParent(cellTransform);
+            starParticles.transform.localPosition = -Vector3.forward;
+            starParticles.transform.localScale = Vector3.one;
+            starParticles.Play();
         }
 
         private Sprite[] ShuffleArray(List<Sprite> array) {

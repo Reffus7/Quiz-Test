@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Zenject;
+
 namespace Game {
     public class UIController : MonoBehaviour {
         [SerializeField] private CanvasGroup endGameCanvasGroup;

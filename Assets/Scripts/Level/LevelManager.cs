@@ -1,27 +1,27 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
 namespace Game {
     public class LevelManager {
         private LevelDataSO[] levels;
         private SpriteSetSO[] spriteSets;
         private GridManager gridManager;
-        private UIController uiController;
         private UIAnimator uiAnimator;
+        [Inject] private UIController uiController;
 
         private int currentLevelIndex = 0;
         private Sprite targetElement;
         private List<Sprite> usedSprites = new();
 
-        public LevelManager(LevelDataSO[] levels, SpriteSetSO[] spriteSets, GridManager gridManager, UIController uiController, UIAnimator uiAnimator) {
+        public LevelManager(LevelDataSO[] levels, SpriteSetSO[] spriteSets, GridManager gridManager, UIAnimator uiAnimator) {
             this.levels = levels;
             this.spriteSets = spriteSets;
             this.gridManager = gridManager;
-            this.uiController = uiController;
             this.uiAnimator = uiAnimator;
-
         }
 
         public void StartGame() {
@@ -43,11 +43,17 @@ namespace Game {
             uiController.HideLoadingScreen();
         }
 
+        private void LoadNextLevel() {
+            LoadLevel(currentLevelIndex + 1);
+        }
+
         private void LoadLevel(int levelIndex) {
             if (levelIndex >= levels.Length) {
                 EndGame();
                 return;
             }
+
+            currentLevelIndex = levelIndex;
 
             LevelDataSO levelData = levels[levelIndex];
 
@@ -79,12 +85,9 @@ namespace Game {
             Sprite[] gridSprites = gridManager.GenerateGridSprites(levelData.Rows, levelData.Columns, targetElement, spritePool);
             gridManager.GenerateGrid(levelData.Rows, levelData.Columns, gridSprites, OnCellClick);
 
-            currentLevelIndex = levelIndex;
 
-            if (levelIndex == 0) {
-                Transform[] cellTransforms = gridManager.GetGridCells().Select(cell => cell.transform).ToArray();
-                uiAnimator.BounceGridCells(cellTransforms);
-            }
+            Transform[] cellTransforms = gridManager.GetGridCells().Select(cell => cell.transform).ToArray();
+            uiAnimator.BounceGridCells(cellTransforms);
 
         }
 
@@ -93,7 +96,7 @@ namespace Game {
         }
 
         private SpriteSetSO GetRandomSpriteSet() {
-            return spriteSets[Random.Range(0, spriteSets.Length)];
+            return spriteSets[UnityEngine.Random.Range(0, spriteSets.Length)];
         }
 
         private List<Sprite> GetFilteredSpritePool(SpriteSetSO spriteSet) {
@@ -105,8 +108,7 @@ namespace Game {
         }
 
         private Sprite GetRandomTargetSprite(List<Sprite> spritePool) {
-            Sprite target = spritePool[Random.Range(0, spritePool.Count)];
-            //spritePool.Remove(target);
+            Sprite target = spritePool[UnityEngine.Random.Range(0, spritePool.Count)];
             return target;
         }
 
@@ -121,8 +123,5 @@ namespace Game {
             }
         }
 
-        private void LoadNextLevel() {
-            LoadLevel(currentLevelIndex + 1);
-        }
     }
 }

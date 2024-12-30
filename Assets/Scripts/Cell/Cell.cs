@@ -8,14 +8,10 @@ namespace Game {
         [SerializeField] private Image contentImage;
         [SerializeField] private float size;
 
-        private CellVisualizer visualizer;
+        private CellVisualizer visualizer = new();
         private Action onClick;
 
         public float GetSize() => size;
-
-        private void Awake() {
-            visualizer = new CellVisualizer();
-        }
 
         public void Init(Sprite element, Action onCellClick) {
             SetSize(size);
