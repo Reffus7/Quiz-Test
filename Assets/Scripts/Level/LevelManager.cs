@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -58,7 +57,7 @@ namespace Game {
             LevelDataSO levelData = levels[levelIndex];
 
             if (spriteSets.Length == 0) {
-                Debug.LogError("Нет доступных наборов спрайтов.");
+                Debug.LogError("РќРµС‚ РґРѕСЃС‚СѓРїРЅС‹С… РЅР°Р±РѕСЂРѕРІ СЃРїСЂР°Р№С‚РѕРІ.");
                 return;
             }
 
@@ -66,7 +65,7 @@ namespace Game {
             List<Sprite> spritePool = GetFilteredSpritePool(spriteSet);
 
             if (spritePool.Count == 0) {
-                Debug.LogError("Нет доступных спрайтов для текущего уровня.");
+                Debug.LogError("РќРµС‚ РґРѕСЃС‚СѓРїРЅС‹С… СЃРїСЂР°Р№С‚РѕРІ РґР»СЏ С‚РµРєСѓС‰РµРіРѕ СѓСЂРѕРІРЅСЏ.");
                 return;
             }
 
@@ -75,7 +74,7 @@ namespace Game {
             spritePool.Remove(targetElement);
 
             if (spritePool.Count == 0) {
-                Debug.LogError("Свободные спрайты закончились в данном наборе.");
+                Debug.LogError("РЎРІРѕР±РѕРґРЅС‹Рµ СЃРїСЂР°Р№С‚С‹ Р·Р°РєРѕРЅС‡РёР»РёСЃСЊ РІ РґР°РЅРЅРѕРј РЅР°Р±РѕСЂРµ.");
                 return;
             }
 

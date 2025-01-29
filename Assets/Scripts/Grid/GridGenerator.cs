@@ -62,9 +62,9 @@ namespace Game {
             foreach (Transform child in gridParent) {
                 child.DOKill();
                 child.GetChild(1).DOKill();
-                cellPool.ReturnCell(child.gameObject.GetComponent<Cell>());
-                cells.Clear();
+                cellPool.ReturnCell(child.GetComponent<Cell>());
             }
+            cells.Clear();
         }
 
         public List<Cell> GetGridCells() {

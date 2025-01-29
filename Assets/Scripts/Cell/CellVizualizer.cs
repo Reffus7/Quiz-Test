@@ -25,6 +25,7 @@ namespace Game {
             else {
                 contentTransform.rotation=Quaternion.identity;
             }
+
         }
     }
 }

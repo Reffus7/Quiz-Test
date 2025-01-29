@@ -97,7 +97,11 @@ namespace Game {
             cellContent.DORotate(originalRotation + new Vector3(0, 0, 10f), duration)
                 .SetEase(Ease.OutQuad)
                 .SetLoops(2, LoopType.Yoyo)
-                .OnKill(() => cellContent.localEulerAngles = originalRotation);
+                .OnKill(() => {
+                    if (cellContent.localEulerAngles != Vector3.zero && cellContent.localEulerAngles != new Vector3(0, 0, 270)) {
+                        cellContent.localEulerAngles = originalRotation;
+                    }
+                });
 
             Image image = cellContent.GetComponent<Image>();
             image.DOKill();
